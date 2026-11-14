@@ -1,0 +1,21 @@
+version: '2'
+services:
+    apache2:
+        image: test:latest
+        build:
+            context: .
+        ports:
+            - "8080:80"
+        volumes:
+#            - ./backup/reclusive:/var/www/html/reclusive
+            - ./backup/multiple-boxes/reclusive:/var/www/html/reclusive
+        restart: on-failure
+
+#    sftpgo:
+#       name: sftpgo
+#        image: drakken/sftpgo:latest
+#        ports:
+#            - "8080:8080"
+#            - "2022:2022"
+
+  #docker run --name some-sftpgo -p 8080:8080 -p 2022:2022 -d "drakkan/sftpgo:tag"
