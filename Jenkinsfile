@@ -8,9 +8,10 @@ pipeline {
         stage('docker build') {
             steps {
                 sh 'docker --version'
-//                sh '''
+                sh '''
+                echo /usr/local/bin/getVersionTag.sh
 //                docker build . -t ${IMAGE_NAME}:${VERSION}
-//                '''
+                '''
 //                echo "Docker Image version: ${VERSION}"
             }
         }
