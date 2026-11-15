@@ -2,19 +2,15 @@ pipeline {
     agent { label 'Docker' }
     environment {
         VERSION=sh(script: "/usr/local/bin/getVersionTag.sh", returnStdout:true)
-//        BRANCH_NAME=sh(script: "chmod +x publisher/getBranch.sh && ./publisher/getBranch.sh", returnStdout:true).trim()
+        IMAGE_NAME="vagrant-registry"
     }
     stages {
         stage('docker build') {
             steps {
                 sh 'docker --version'
                 sh '''
-                echo $(/usr/local/bin/getVersionTag.sh)
-                echo ${VERSION}
+                docker build . -t ${IMAGE_NAME}:${VERSION}
                 '''
-//                sh '''
-//                docker build . -t ${IMAGE_NAME}:${VERSION}
-//                '''
                 echo "Docker Image version: ${VERSION}"
             }
         }
@@ -23,14 +19,6 @@ pipeline {
 //                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
 //                    sh '''
 //                        NAMESPACE="reclusive/"
-//
-//                        if [ "${BRANCH_NAME}" = "master" ]; then
-//                            echo "Building Docker Image for master branch"
-//                            export IMAGE_NAME="cv"
-//                        else
-//                            echo "Building Docker Image for branch ${BRANCH_NAME}"
-//                            export IMAGE_NAME="cv-${BRANCH_NAME}"
-//                        fi
 //
 //                        echo "Docker Image version: ${VERSION}"
 //                        echo "Docker registry: ${DOCKER_REGISTRY}"
