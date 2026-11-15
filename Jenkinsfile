@@ -1,20 +1,21 @@
 pipeline {
     agent { label 'Docker' }
-//    environment {
-//        VERSION=sh(script: "chmod +x publisher/getVersionTag.sh && ./publisher/getVersionTag.sh", returnStdout:true)
+    environment {
+        VERSION=sh(script: "/usr/local/bin/getVersionTag.sh", returnStdout:true)
 //        BRANCH_NAME=sh(script: "chmod +x publisher/getBranch.sh && ./publisher/getBranch.sh", returnStdout:true).trim()
-//    }
+    }
     stages {
         stage('docker build') {
             steps {
                 sh 'docker --version'
                 sh '''
                 echo $(/usr/local/bin/getVersionTag.sh)
+                echo ${VERSION}
                 '''
 //                sh '''
 //                docker build . -t ${IMAGE_NAME}:${VERSION}
 //                '''
-//                echo "Docker Image version: ${VERSION}"
+                echo "Docker Image version: ${VERSION}"
             }
         }
 //        stage ('Push Docker Image to Prod Registry') {
