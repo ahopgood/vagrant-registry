@@ -31,19 +31,20 @@ pipeline {
                         docker push ${DOCKER_REGISTRY}${NAMESPACE}${IMAGE_NAME}:latest
                         docker logout https://${DOCKER_REGISTRY}
                     '''
+                    if (env.BRANCH_NAME == "main") {
+                        sh 'In main branch'
+                    }
                 } //End credentials block
             }
         } //End push to registry stage
 //        stage('deploy'){
+//            when (
+//                    branch 'main'
+//            )
 ////            Use nomad address to deploy the docker image to the nomad cluster
 //            steps {
 //                withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_REGISTRY_USERNAME', passwordVariable: 'DOCKER_REGISTRY_PASSWORD')]) {
 //                    sh """
-//                    if [ "${BRANCH_NAME}" = "master" ]; then
-//                        echo "Deploying Docker Image for master branch"
-//                    else
-//                        echo "Deploying Docker Image for branch ${BRANCH_NAME}"
-//                    fi
 //
 //                    export DOCKER_REGISTRY_ADDRESS="${DOCKER_REGISTRY}"
 //                    export NOMAD_ADDR="https://${NOMAD}"
